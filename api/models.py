@@ -26,8 +26,10 @@ class Order(models.Model):
     phone = models.CharField(max_length=18)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     order_status = models.CharField(max_length=10, choices=STATUSES, null=True, default=STATUSES[0])
+    offera = models.BooleanField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
+
 
     def __str__(self):
         return f"{self.service_id} {self.service.name}"
