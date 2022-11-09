@@ -1,10 +1,13 @@
 import datetime
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from django.utils import timezone
 
 # Create your models here.
+from users.models import CustomUser
+
 
 class Service(models.Model):
     name = models.CharField(max_length=255)
@@ -33,3 +36,13 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.service_id} {self.service.name}"
+
+class Review(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    comment = models.TextField()
+    star = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created_at = models.DateTimeField(default=timezone.now)
+    update_at = models.DateTimeField(default=timezone.now)
+
+    # def __str__(self):
+    #     return f
