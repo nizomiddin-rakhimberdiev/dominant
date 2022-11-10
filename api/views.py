@@ -5,8 +5,6 @@ from .models import Service, Order
 from .serializers import ServiceSerializer, OrderSerializer
 
 
-# Create your views here.
-
 class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializer
     queryset = Service.objects.all().order_by('created_at')

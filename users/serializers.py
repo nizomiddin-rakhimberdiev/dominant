@@ -1,31 +1,19 @@
-from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 from users.models import CustomUser
-from .models import Service, Order
 
 
-class ServiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Service
-        fields = ('id', 'name', 'no_action_price', 'action_price', 'created_at')
+# Serializer to Get User Details using Django Token Authentication
+class UserSerializer(serializers.ModelSerializer):
 
-
-class OrderSerializer(serializers.ModelSerializer):
-    service = ServiceSerializer(read_only=True)
-
-    service_id = serializers.IntegerField(write_only=True)
-
-    class Meta:
-        model = Order
-        fields = ('id', 'phone', 'service', 'service_id', 'order_status', 'offera', 'created_at')
-
-
-class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["id", "first_name", "last_name", "username", 'phone_number', 'profile_pic', 'address']
+        fields = ["id", "first_name", "last_name", "username", 'phone_number', 'address']
 
 
 # Serializer to Register User
@@ -41,7 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('username', 'password', 'password2',
-                  'email', 'first_name', 'last_name')
+                  'email', 'phone_number', 'first_name', 'last_name', 'address')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -57,8 +45,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
+            phone_number=validated_data['phone_number'],
             first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            last_name=validated_data['last_name'],
+            address=validated_data['address'],
+
         )
         user.set_password(validated_data['password'])
         user.save()
