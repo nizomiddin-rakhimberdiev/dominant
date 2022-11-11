@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from .models import Service, Order
-from .serializers import ServiceSerializer, OrderSerializer
+from .models import Service, Order, Review
+from .serializers import ServiceSerializer, OrderSerializer, ReviewSerializer
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
@@ -14,4 +14,10 @@ class ServiceViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all().order_by('created_at')
+    lookup_field = 'id'
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all().order_by('created_at')
     lookup_field = 'id'

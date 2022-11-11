@@ -3,29 +3,74 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from users.models import CustomUser
-from .models import Service, Order
+from .models import Service, Order, Review
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(read_only=True)
+
     class Meta:
         model = Service
-        fields = ('id', 'name', 'no_action_price', 'action_price', 'created_at')
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    service = ServiceSerializer(read_only=True)
-
-    service_id = serializers.IntegerField(write_only=True)
-
-    class Meta:
-        model = Order
-        fields = ('id', 'phone', 'service', 'service_id', 'order_status', 'offera', 'created_at')
+        fields = ('id',
+                  'name',
+                  'no_action_price',
+                  'action_price',
+                  'created_at'
+                  )
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["id", "first_name", "last_name", "username", 'phone_number', 'profile_pic', 'address']
+        fields = ("id",
+                  "first_name",
+                  "last_name",
+                  "username",
+                  "email",
+                  'phone_number',
+                  'address'
+                  )
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    service = ServiceSerializer(read_only=True)
+    user = CustomUserSerializer(read_only=True)
+
+    user_id = serializers.IntegerField(write_only=True)
+    service_id = serializers.IntegerField(write_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ('id',
+                  'user',
+                  'user_id',
+                  'phone',
+                  'service',
+                  'service_id',
+                  'number_of_loader',
+                  'number_of_hour',
+                  'floor', 'elevator',
+                  'need_a_car',
+                  'created_at'
+                  )
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer(read_only=True)
+
+    user_id = serializers.IntegerField(write_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = ('id',
+                  'user',
+                  'user_id',
+                  'comment',
+                  'star',
+                  'created_at'
+                  )
 
 
 # Serializer to Register User
@@ -40,8 +85,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'password', 'password2',
-                  'email', 'first_name', 'last_name')
+        fields = ('username',
+                  'password',
+                  'password2',
+                  'email',
+                  'phone_number',
+                  'first_name',
+                  'last_name'
+                  )
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -57,6 +108,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
+            phone_number=validated_data['phone_number'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )

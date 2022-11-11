@@ -1,8 +1,12 @@
 import datetime
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from django.utils import timezone
+
+from users.models import CustomUser
+
 
 # Create your models here.
 
@@ -23,13 +27,28 @@ class Order(models.Model):
         ('Completed', 'Completed'),
     )
 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     phone = models.CharField(max_length=18)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    number_of_loader = models.PositiveIntegerField()
+    number_of_hour = models.PositiveIntegerField()
+    floor = models.PositiveIntegerField()
+    elevator = models.BooleanField()
+    need_a_car = models.BooleanField()
     order_status = models.CharField(max_length=10, choices=STATUSES, null=True, default=STATUSES[0])
-    offera = models.BooleanField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
-
     def __str__(self):
         return f"{self.service_id} {self.service.name}"
+
+
+class Review(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    comment = models.TextField()
+    star = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created_at = models.DateTimeField(default=timezone.now)
+    update_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.full_name}"
