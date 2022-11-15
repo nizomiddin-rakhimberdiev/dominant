@@ -28,9 +28,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_swagger',
-    'dj_rest_auth',
-    'phonenumber_field'
+    # 'rest_framework_swagger',
+    # 'dj_rest_auth',
+    # 'phonenumber_field'
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from phonenumber_field.widgets import PhoneNumberPrefixWidget
+# from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 from users.models import CustomUser
 

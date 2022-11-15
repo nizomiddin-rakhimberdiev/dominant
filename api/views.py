@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Service, Order, Review, Category, CategoryService, Consultation, Candidate, News
 from .serializers import ServiceSerializer, OrderSerializer, ReviewSerializer, CategorySerializer, \
@@ -12,11 +15,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
     lookup_field = 'id'
 
 
-class ServiceViewSet(viewsets.ModelViewSet):
-    serializer_class = ServiceSerializer
-    queryset = Service.objects.all().order_by('created_at')
-    lookup_field = 'id'
+class ServiceListAPI(APIView):
+    permission_classes = (AllowAny,)
 
+    def get(self, request):
+        services = Service.objects.all().order_by('created_at')
+        serializer = ServiceSerializer(services, many=True)
+        return Response(data=serializer.data)
 
 class CategoryServiceViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryServiceSerializer
