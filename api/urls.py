@@ -8,7 +8,8 @@ from .views import (OrderViewSet,
                     CategoryServiceListAPI,
                     NewsListAPI,
                     CandidateViewSet,
-                    ConsultationListAPI
+                    ConsultationListAPI, NewsListDetail, CategoryServiceListDetail, ConsultationListDetail,
+                    ServiceListDetail, CategoryListDetail
                     )
 
 app_name = 'api'
@@ -30,5 +31,10 @@ urlpatterns += [
     path('category/', CategoryListAPI.as_view(), name='category'),
     path('consultation/', ConsultationListAPI.as_view(), name='consultation'),
     path('category-service/', CategoryServiceListAPI.as_view(), name='category-service'),
-    path('news/', NewsListAPI.as_view(), name='news')
+    path('news/', NewsListAPI.as_view(), name='news'),
+    path('news/<int:pk>/', NewsListDetail.as_view(), name='news-detail'),
+    path('category-service/<int:pk>/', CategoryServiceListDetail.as_view(), name='category-service-detail'),
+    path('consultation/<int:pk>/', ConsultationListDetail.as_view(), name='consultation-detail'),
+    path('services/<int:pk>/', ServiceListDetail.as_view(), name='service-detail'),
+    path('category/<int:pk>/', CategoryListDetail.as_view(), name='category-detail'),
 ]
