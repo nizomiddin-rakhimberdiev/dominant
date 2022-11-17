@@ -16,7 +16,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 
 class AuthUserSerializer(serializers.ModelSerializer):
-    auth_token = serializers.SerializerMethodField()
+    # auth_token = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser

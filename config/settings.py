@@ -31,18 +31,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
-<<<<<<< HEAD
-    # 'rest_framework_swagger',
-    # 'dj_rest_auth',
-    # 'phonenumber_field'
-=======
+
     'rest_framework_swagger',
     'rest_framework_simplejwt',
     'drf_yasg',
     'allauth',
     'allauth.account',
     'phonenumber_field'
->>>>>>> 6fe8416 (complated)
+
 ]
 
 MIDDLEWARE = [

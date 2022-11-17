@@ -1,10 +1,10 @@
 from django.contrib import admin
-<<<<<<< HEAD:users/admin.py
+
 from django import forms
-# from phonenumber_field.widgets import PhoneNumberPrefixWidget
-=======
+
+
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
->>>>>>> 6fe8416 (complated):apps/users/admin.py
+
 
 from apps.users.models import CustomUser
 
