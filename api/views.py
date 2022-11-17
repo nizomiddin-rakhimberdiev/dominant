@@ -9,10 +9,13 @@ from .serializers import ServiceSerializer, OrderSerializer, ReviewSerializer, C
     CategoryServiceSerializer, ConsultationSerializer, CandidateSerializer, NewsSerializer
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all().order_by('id')
-    lookup_field = 'id'
+class CategoryListAPI(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+        category = Category.objects.all()
+        serializer = CategorySerializer(category, many=True)
+        return Response(data=serializer.data)
 
 
 class ServiceListAPI(APIView):
@@ -23,10 +26,12 @@ class ServiceListAPI(APIView):
         serializer = ServiceSerializer(services, many=True)
         return Response(data=serializer.data)
 
-class CategoryServiceViewSet(viewsets.ModelViewSet):
-    serializer_class = CategoryServiceSerializer
-    queryset = CategoryService.objects.all().order_by('created_at')
-    lookup_field = 'id'
+class CategoryServiceListAPI(APIView):
+    permission_classes = (AllowAny,)
+    def get(self,request):
+        category_service = CategoryService.objects.all()
+        serializer = CategoryServiceSerializer(category_service, many=True)
+        return Response(data=serializer.data)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -41,10 +46,12 @@ class ReviewViewSet(viewsets.ModelViewSet):
     lookup_field = 'id'
 
 
-class NewsViewSet(viewsets.ModelViewSet):
-    serializer_class = NewsSerializer
-    queryset = News.objects.all().order_by('time_update')
-    lookup_field = 'id'
+class NewsListAPI(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        news = News.objects.all().order_by('time_update')
+        serializer = NewsSerializer(news, many=True)
+        return Response(serializer.data)
 
 
 class CandidateViewSet(viewsets.ModelViewSet):
@@ -52,8 +59,9 @@ class CandidateViewSet(viewsets.ModelViewSet):
     queryset = Candidate.objects.all().order_by('created_at')
     lookup_field = 'id'
 
-
-class ConsultationViewSet(viewsets.ModelViewSet):
-    serializer_class = ConsultationSerializer
-    queryset = Consultation.objects.all().order_by('created_at')
-    lookup_field = 'id'
+class ConsultationListAPI(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        consultation = Consultation.objects.all()
+        serializer = ConsultationSerializer(consultation, many=True)
+        return Response(data=serializer.data)
