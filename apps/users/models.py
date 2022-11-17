@@ -41,7 +41,7 @@ class CustomUser(AbstractUser):
     is_superuser = models.BooleanField(default=False, verbose_name='Super user')
     is_staff = models.BooleanField(default=False, verbose_name='Staff user')
     is_active = models.BooleanField(default=True, verbose_name='Active user')
-    phone_number = PhoneNumberField(unique=True, )
+    phone_number = PhoneNumberField(max_length=18, unique=True, )
     address = models.CharField(max_length=255)
 
     objects = UserManager()
@@ -51,7 +51,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return str(self.phone_number)
+        return f"{self.username} [ {str(self.phone_number)} ]"
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
