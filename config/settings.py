@@ -23,14 +23,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'api',
+    'django.contrib.sites',
+
+    'apps.users',
+    'apps.api',
 
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
+<<<<<<< HEAD
     # 'rest_framework_swagger',
     # 'dj_rest_auth',
     # 'phonenumber_field'
+=======
+    'rest_framework_swagger',
+    'rest_framework_simplejwt',
+    'drf_yasg',
+    'allauth',
+    'allauth.account',
+    'phonenumber_field'
+>>>>>>> 6fe8416 (complated)
 ]
 
 MIDDLEWARE = [
@@ -43,6 +55,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_METHODS = [
+    '*'
+]
+
+CORS_ALLOW_HEADERS = [
+    '*'
+]
+CORS_ALLOW_CREDENTIALS = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SITE_ID = 1
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -52,10 +82,13 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-
-    ]
+        # 'knox.auth.TokenAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'  # <-- Here
 }
 
+LOCAL_BASE_URL = 'http://127.0.0.1:8000'
+PROD_BASE_URL = 'http://localhost:3000'
 SWAGGER_SETTINGS = {
     'VALIDATOR_URL': 'http://localhost:8189',
 }
@@ -145,4 +178,4 @@ AUTH_USER_MODEL = 'users.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media-files'
 
-LOGIN_URL = 'users:login'
+# LOGIN_URL = 'users:login'
