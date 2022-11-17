@@ -7,3 +7,5 @@ django-rest-swagger==2.2.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.0
 drf-yasg==1.21.4
+Pillow==9.3.0
+phonenumbers==8.13.0
