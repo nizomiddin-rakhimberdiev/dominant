@@ -9,3 +9,5 @@ djangorestframework-simplejwt==5.2.0
 drf-yasg==1.21.4
 Pillow==9.3.0
 phonenumbers==8.13.0
+phonenumberslite==8.13.0
+
